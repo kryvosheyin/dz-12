@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="UI automation">
+    <test name="Running all tests">
+        <classes>
+            <class name="TestMan"/>
+            <class name="TestWomen"/>
+        </classes>
+    </test>
+</suite>
