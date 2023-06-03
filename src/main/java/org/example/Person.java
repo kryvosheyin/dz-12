@@ -34,6 +34,10 @@ public class Person {
     return this.lastName;
     }
 
+    public String getFirstName(){
+        return this.firstName;
+    }
+
     public void resetToOriginalData(){
         if(this.originalAge != this.age) this.age = this.originalAge;
         if(this.married == true && this.partner!=null) this.deregisterPartnership();
@@ -47,8 +51,8 @@ public class Person {
         }
     }
 
-    public void printFavoriteThings() {
-        System.out.println("As a Human I like to eat and sleep");
+    public String favoriteThings() {
+        return("As a Human I like to eat and sleep");
     }
 
     public boolean isRetired() {

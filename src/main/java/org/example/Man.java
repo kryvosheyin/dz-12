@@ -7,13 +7,12 @@ public class Man extends Person {
 
     @Override
     public boolean isRetired() {
-        return this.age >=65;
+        return this.age >= 65;
     }
 
     public void listenMusic() {
         System.out.println("🎵🎶♬");
     }
-
 
     @Override
     public String toString() {
@@ -27,7 +26,7 @@ public class Man extends Person {
     }
 
     @Override
-    public void printFavoriteThings() {
-        System.out.println("As a Man I like beer, squash and bikes");
+    public String favoriteThings() {
+        return ("As a Man I like beer, squash and bikes");
     }
 }

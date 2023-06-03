@@ -14,37 +14,6 @@ public class CSVReader {
     public static final String WOMAN_LIST_FILE_PATH = new PropertiesReader("paths.properties").getProperty("women_list");
     public static final String MARRIED_MEN_LIST_FILE_PATH = new PropertiesReader("paths.properties").getProperty("married_man_list");
 
-
-    public static class DataRecord {
-        String firstName;
-        String lastName;
-        int age;
-        boolean isMarried;
-
-        DataRecord(String firstName, String lastName, int age, boolean isMarried) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.age = age;
-            this.isMarried = isMarried;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public boolean isMarried() {
-            return isMarried;
-        }
-    }
-
     public static List<DataRecord> readCsvFile(String filePath) {
         List<DataRecord> records = new ArrayList<>();
         Path pathToFile = Paths.get(filePath);

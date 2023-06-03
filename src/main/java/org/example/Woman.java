@@ -28,8 +28,8 @@ public class Woman extends Person {
     }
 
     @Override
-    public void printFavoriteThings() {
-        System.out.println("As a Woman I like to dance and draw");
+    public String favoriteThings() {
+        return("As a Woman I like to dance and draw");
     }
 
     @Override

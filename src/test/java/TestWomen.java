@@ -9,65 +9,58 @@ import utils.PeopleList;
 
 public class TestWomen {
 
-    PeopleList peopleList = new PeopleList();
+    DataProviderValues people = new DataProviderValues();
     SoftAssert softAssert = new SoftAssert();
 
-    Man[] men, marriedMen;
-    Woman[] women;
+    Man[] men = people.menlist();
+    Man[] marriedMen = people.marriedMen();
+    Woman[] women = people.womenList();
 
-    @BeforeClass(groups = "smoke")
-    public void setUp() {
-        men = PeopleList.getListOfMen(peopleList.menRecords, new Man[peopleList.menRecords.size()]);
-        marriedMen = PeopleList.getListOfMen(peopleList.marriedManRecords, new Man[peopleList.marriedManRecords.size()]);
-        women = PeopleList.getListOfWomen(peopleList.womenRecords, new Woman[peopleList.womenRecords.size()]);
-    }
 
-    @Test
-    public void testWomenNotRetired(){
-        for(Woman woman : women){
+    @Test(dataProvider = "womenList", dataProviderClass = DataProviderValues.class)
+    public void testWomenNotRetired(Woman woman) {
         Assert.assertFalse(woman.isRetired(), "At least one of the woman's age exceeds the retirement policy");
-        }
+    }
+
+    @Test(dataProvider = "womenList", dataProviderClass = DataProviderValues.class)
+    public void testCanNotGetMarried(Woman woman) {
+        Assert.assertFalse(woman.canGetMarried(marriedMen[0]), "At least one woman can get married to a married man");
+    }
+
+    @Test(dataProvider = "womenList", dataProviderClass = DataProviderValues.class)
+    public void testCanGetMarried(Woman woman) {
+        Assert.assertTrue(woman.canGetMarried(men[0]));
+    }
+
+    @Test(groups = "smoke", dataProvider = "womenList", dataProviderClass = DataProviderValues.class)
+    public void testWomenGetFullName(Woman woman) {
+        Assert.assertEquals(woman.getFullName(),
+                woman.getFirstName() + " " + woman.getLastName(),
+                "One or more names mismatch");
     }
 
     @Test
-    public void testCanNotGetMarried(){
-        for (Woman woman : women){
-            Assert.assertFalse(woman.canGetMarried(marriedMen[0]), "At least one woman can get married to a married man");
-        }
+    public void testFavoriteThings() {
+        Assert.assertEquals(women[0].favoriteThings(), "As a Woman I like to dance and draw", "Not what women like to do");
     }
 
     @Test(groups = "smoke")
-    public void testWomenGetFullName() {
-        for (int i = 0; i < women.length; i++) {
-            Assert.assertEquals(women[i].getFullName(),
-                    peopleList.womenRecords.get(i).getFirstName() + " " + peopleList.womenRecords.get(i).getLastName(),
-                    "One or more names mismatch");
-        }
+    public void testRetirementAge() {
+        women[0].setAge(63);
+        Assert.assertTrue(women[0].isRetired(), "At least one woman is not at the retirement age");
     }
 
-    @Test(groups = "smoke")
-    public void testRetirementAge(){
-        for(Woman woman : women){
-            woman.setAge(63);
-            Assert.assertTrue(woman.isRetired(), "At least one woman is not at the retirement age");
-        }
-    }
-
-    @Test
-    public void testRegisterPartnership(){
-        for(int i=0; i<women.length;i++){
-            women[i].registerPartnership(men[i]);
-            softAssert.assertTrue(women[i].married && men[i].married);
-            softAssert.assertEquals(women[i].getLastName(), men[i].getLastName());
-            softAssert.assertEquals(women[i].getSpouseName(), men[i].getFullName());
-            softAssert.assertAll();
-        }
+    @Test(dataProvider = "menAndWomen", dataProviderClass = DataProviderValues.class)
+    public void testRegisterPartnership(Man man, Woman woman) {
+        woman.registerPartnership(man);
+        softAssert.assertTrue(woman.married && man.married);
+        softAssert.assertEquals(woman.getLastName(), man.getLastName());
+        softAssert.assertEquals(woman.getSpouseName(), man.getFullName());
+        softAssert.assertAll();
     }
 
     @AfterMethod
-    public void resetToOriginalData(){
-        for (Man man: men) man.resetToOriginalData();
+    public void resetToOriginalData() {
         for (Woman woman : women) woman.resetToOriginalData();
-        for (Man man :marriedMen) man.resetToOriginalData();
     }
 }
