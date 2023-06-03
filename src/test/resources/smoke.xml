@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="UI automation">
+    <groups>
+        <run>
+            <include name="smoke"/>
+        </run>
+    </groups>
+    <test name="Setters and Getters">
+        <classes>
+            <class name="TestWomen"/>
+            <class name="TestMan"/>
+        </classes>
+    </test>
+</suite>
